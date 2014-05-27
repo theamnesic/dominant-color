@@ -1,14 +1,13 @@
 <?php
 /**
  * Plugin Name: Dominant Color
- * Description: Save the dominant color of the image files you upload in Wordpress.
+ * Description: Save the dominant color of the image files you upload.
  * Author: Sunny Ripert & Guillaume Morisseau
- * Author URI: http://sunfox.org/
+ * Author URI: https://github.com/theamnesic/dominant-color
  * Version: 1.0
- *
  */
 
-// Debug
+// Debug helper
 
 function xlog($str) {
   header('X-Log: '.preg_replace('/\n/', '', $str));
@@ -17,15 +16,16 @@ function xlog($str) {
 // RVB to HEX
 
 function rgb2hex($rgb) {
-   $hex = "#";
-   $hex .= str_pad(dechex($rgb[0]), 2, "0", STR_PAD_LEFT);
-   $hex .= str_pad(dechex($rgb[1]), 2, "0", STR_PAD_LEFT);
-   $hex .= str_pad(dechex($rgb[2]), 2, "0", STR_PAD_LEFT);
+  $hex = "#";
+  $hex .= str_pad(dechex($rgb[0]), 2, "0", STR_PAD_LEFT);
+  $hex .= str_pad(dechex($rgb[1]), 2, "0", STR_PAD_LEFT);
+  $hex .= str_pad(dechex($rgb[2]), 2, "0", STR_PAD_LEFT);
 
-   return $hex;
+  return $hex;
 }
 
 // Calculate the dominant color
+// Thanks to @onion2k on http://forums.devnetwork.net/viewtopic.php?t=39594
 
 function dominant_color($path) {
   $i = imagecreatefromjpeg($path);
@@ -81,7 +81,7 @@ function dominant_add_meta_box() {
 
   add_meta_box(
     'dominant',
-    'Couleur dominante',
+    'Dominant color',
     'dominant_meta_box_callback',
     'attachment'
   );
@@ -93,7 +93,7 @@ function dominant_meta_box_callback($post) {
 
   wp_nonce_field('dominant_meta_box', 'dominant_meta_box_nonce');
 
-  $value = "#ffffff"; // Blanc si rien
+  $value = "#ffffff"; // white
 
   $meta = get_post_meta( $post->ID, 'dominant_color', true );
   $value = (empty($meta)) ? $value : $meta;
@@ -114,12 +114,12 @@ function dominant_save_meta_box_data( $post_id ) {
 
   if (isset( $_POST['post_type']) && 'page' == $_POST['post_type']) {
 
-    if (!current_user_can( 'edit_page', $post_id ))
+    if (!current_user_can('edit_page', $post_id))
       return;
 
   } else {
 
-    if (!current_user_can( 'edit_post', $post_id ))
+    if (!current_user_can('edit_post', $post_id))
       return;
   }
 
@@ -128,17 +128,16 @@ function dominant_save_meta_box_data( $post_id ) {
 
   $color = sanitize_text_field($_POST['field_rgb']);
 
-  update_post_meta( $post_id, 'dominant_color', $color );
+  update_post_meta($post_id, 'dominant_color', $color);
 }
 
 add_action('edit_attachment', 'dominant_save_meta_box_data');
 
-
 // Add the colorpicker
 
-add_action( 'admin_enqueue_scripts', 'mw_enqueue_color_picker' );
+add_action('admin_enqueue_scripts', 'mw_enqueue_color_picker');
 
-function mw_enqueue_color_picker( $hook_suffix ) {
-  wp_enqueue_style( 'wp-color-picker' );
-  wp_enqueue_script( 'my-script-handle', plugins_url('script.js', __FILE__ ), array( 'wp-color-picker' ), false, true );
+function mw_enqueue_color_picker($hook_suffix) {
+  wp_enqueue_style('wp-color-picker');
+  wp_enqueue_script('my-script-handle', plugins_url('script.js', __FILE__ ), array('wp-color-picker'), false, true);
 }

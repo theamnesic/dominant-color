@@ -1,8 +1,10 @@
 jQuery(document).ready(function($){
 
-    $('.dominant-color-field').wpColorPicker();
+  // Colorpicker
+  $('.dominant-color-field').wpColorPicker();
 
-    $('#dominant .wp-picker-container').css('margin-top', 10);
+  // Add a little margin in the metabox
+  $('#dominant .wp-picker-container').css('margin-top', 10);
 
 });
 
