@@ -1,8 +1,8 @@
 # Dominant Color
 
-Wordpress plugin to save the dominant color of the image file you upload.
+WordPress plugin to save the dominant color of the image file you upload.
 
-Add also a metabox with a colorpicker in your Medias library.
+Also adds a metabox with a colorpicker in your Media library.
 
 
 ## Installation
@@ -13,7 +13,7 @@ Add also a metabox with a colorpicker in your Medias library.
 
 ## Usage
 
-Call the hexadecimal code in your template, for example :
+Call the hexadecimal code in your template, for example:
 
 ``` php
 $meta = get_post_meta( $post->ID, 'dominant_color', true );
