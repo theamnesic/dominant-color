@@ -15,7 +15,13 @@ Also adds a metabox with a colorpicker in your Media library.
 
 Call the post meta (an hexadecimal code) in your template:
 
+### By attachment ID
+
 ``` php
-$meta = get_post_meta( $post->ID, 'dominant_color', true );
-$color = (empty($meta)) ? $color : $meta;
+show_dominant($attachmentID)
+```
+### By post ID
+
+``` php
+show_dominant_by_post_id($postID)
 ```

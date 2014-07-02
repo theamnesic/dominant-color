@@ -141,3 +141,18 @@ function mw_enqueue_color_picker($hook_suffix) {
   wp_enqueue_style('wp-color-picker');
   wp_enqueue_script('my-script-handle', plugins_url('script.js', __FILE__ ), array('wp-color-picker'), false, true);
 }
+
+// Return
+
+function show_dominant($attachmentID) {
+  $meta = get_post_meta( $attachmentID, 'dominant_color', true );
+  $color = (empty($meta)) ? $color : $meta;
+  return $color;
+}
+
+function show_dominant_by_post_id($postID) {
+  $attachmentID = get_post_thumbnail_id($postID);
+  return show_dominant($attachmentID);
+}
+
+

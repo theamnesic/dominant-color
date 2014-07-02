@@ -7,5 +7,3 @@ jQuery(document).ready(function($){
   $('#dominant .wp-picker-container').css('margin-top', 10);
 
 });
-
-
