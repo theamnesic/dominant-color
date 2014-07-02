@@ -13,7 +13,7 @@ Also adds a metabox with a colorpicker in your Media library.
 
 ## Usage
 
-Call the hexadecimal code in your template, for example:
+Call the post meta (an hexadecimal code) in your template:
 
 ``` php
 $meta = get_post_meta( $post->ID, 'dominant_color', true );
